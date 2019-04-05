@@ -33,10 +33,12 @@ The BFTS algorithm expects an additional parameter: the posterior. The following
 As for the environments, the parameters can be passed using the python dictionary notation. For example, to denote a Gaussian truncated on [0,1] with variance .25, use "truncated_gaussian{'var':.25,'a':0,'b':1}".
 
 As an example, say we want to run 10000 time steps in the linear environment with a variance of .25 and 100 arms, and we want to investigate the 5 best arms.
+
 For ATLUCB, we can use:
 ```
 python run_atlucb.py -s 1 -t 10000 -m 5 -e "linear{'var':.25, 'n':100}" 
 ```
+
 For BFTS, given that we use a truncated Gaussian posterior, we have: 
 ```
 python run_bfts.py -s 1 -t 10000 -m 5 -e "linear{'var':.25, 'n':100}" -p "truncated_gaussian{'var':.25,'a':0,'b':1}"
