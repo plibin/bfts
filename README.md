@@ -16,6 +16,7 @@ The following environments are available:
 - scaled Gaussian, inspired by epidemiological models: scaled_gaussian 
 
 These environments can be parameterized using the python dictionary notation. The linear environment has for example 2 parameters: the number of arms (n) and the variance (var). For example, to denote a linear environment with 100 arms and a variance of .25, use "linear{'n':100, 'var':.25}".
+
 A complete list of the bandit environments and their parameters:
 - linear: number of arms (n), variance (var)
 - polynomial: number of arms (n), variance (var)
@@ -28,13 +29,16 @@ The BFTS algorithm expects an additional parameter: the posterior. The following
 - truncated t-distribution: truncated_t_distribution{alpha, a, b}
 - Dirichlet: dirichlet{alpha, cat, times_to_init}
 - Gamma: gamma{alpha, beta}
+
 As for the environments, the parameters can be passed using the python dictionary notation. For example, to denote a Gaussian truncated on [0,1] with variance .25, use "truncated_gaussian{'var':.25,'a':0,'b':1}".
 
 As an example, say we want to run 10000 time steps in the linear environment with a variance of .25 and 100 arms, and we want to investigate the 5 best arms.
+
 For ATLUCB, we can use:
 ```
 python run_atlucb.py -s 1 -t 10000 -m 5 -e "linear{'var':.25, 'n':100}" 
 ```
+
 For BFTS, given that we use a truncated Gaussian posterior, we have: 
 ```
 python run_bfts.py -s 1 -t 10000 -m 5 -e "linear{'var':.25, 'n':100}" -p "truncated_gaussian{'var':.25,'a':0,'b':1}"
