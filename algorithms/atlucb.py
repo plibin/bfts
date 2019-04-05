@@ -93,11 +93,9 @@ class AT_LUCB:
         lowest_index = self.l(t, self.sigma(self.S[t - 1]))
         low_reward = self.bandit.play(lowest_index)
         self.add_reward(lowest_index, low_reward)
-        print("pull," +str(lowest_index) , file=sys.stderr)
 
         highest_index = self.h(t, self.sigma(self.S[t - 1]))
         high_reward = self.bandit.play(highest_index)
         self.add_reward(highest_index, high_reward)
-        print("pull," +str(highest_index) , file=sys.stderr)
 
         return self.Jt
