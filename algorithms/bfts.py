@@ -28,7 +28,7 @@ class BFTS:
             theta[i] = self.posteriors[i].sample_arm(rewards)
             
         order = np.argsort(-theta) 
-        arm_i = (self.m - 1) + np.random.choice([0,1]) 
+        arm_i = order[self.m - 1 + np.random.choice([0,1])] 
         
         reward = self.bandit.play(arm_i)
         self.add_reward(arm_i, reward)
