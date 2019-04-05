@@ -12,7 +12,7 @@ The following environments are available:
 - Gaussian with fixed variance and linear means: linear
 - Gaussian with fixed variance and polynomial means: polynomial
 - Cartoon caption contest: captions
-- Olivier's Poisson environment: poisson-olivier
+- Olivier's Poisson environment: poisson_olivier
 - scaled Gaussian, inspired by epidemiological models: scaled_gaussian 
 
 These environments can be parameterized using the python dictionary notation. The linear environment has for example 2 parameters: the number of arms (n) and the variance (var). For example, to denote a linear environment with 100 arms and a variance of .25, use "linear{'n':100, 'var':.25}".
@@ -21,7 +21,7 @@ A complete list of the bandit environments and their parameters:
 - linear: number of arms (n), variance (var)
 - polynomial: number of arms (n), variance (var)
 - captions: number of arms (n)
-- poisson-olivier: number of arms (n)
+- poisson_olivier: number of arms (n)
 - scaled_gaussian: number of arms (n)
 
 The BFTS algorithm expects an additional parameter: the posterior. The following posteriors are available, with their parameters between accolades:

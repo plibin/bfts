@@ -47,7 +47,7 @@ def select(name):
         real_means = captions_means(n)
         bandit =captions_bandit(n)
         return (real_means, bandit)
-    elif name.startswith( "poisson-olivier{"):
+    elif name.startswith( "poisson_olivier{"):
         args = parse_args(name)
         n = args["n"]
         real_means = poisson_oli_means(n)
