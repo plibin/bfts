@@ -42,10 +42,11 @@ class AT_LUCB:
 
     def U(self, t, a, sigma):
         mu = self.mean_per_arm[a]
-        if mu == 0.0:
+        u = len(self.reward_per_arm[a])
+        if u == 0:
             return float("inf")
         else:
-            return mu + self.beta(len(self.reward_per_arm[a]), t, sigma)
+            return mu + self.beta(u, t, sigma)
 
     def h(self, t, sigma):
         min_ = sys.float_info.max
