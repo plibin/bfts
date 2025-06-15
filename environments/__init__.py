@@ -2,6 +2,7 @@ from environments.gaussian_jun import linear_means,linear_bandit,polynomial_mean
 from environments.captions_jun import captions_means,captions_bandit
 from environments.poisson_olivier import poisson_oli_means,poisson_oli_bandit
 from environments.poisson_exp import poisson_exp_means,poisson_exp_bandit
+from environments.bernoulli import bernoulli_means,bernoulli_bandit
 from environments.scaled_gaussian import scaled_gaussian_means,scaled_gaussian_bandit
 import environments.gaussian_jun_lin_var as gj_linvar
 import ast
@@ -17,6 +18,12 @@ def select(name):
         variance = args["var"] 
         real_means = linear_means(n)
         bandit = linear_bandit(n, variance)
+        return (real_means, bandit)
+    elif name.startswith("bernoulli{"):
+        args = parse_args(name)
+        n = args["n"]
+        real_means = bernoulli_means(n)
+        bandit = bernoulli_bandit(n)
         return (real_means, bandit)
     elif name.startswith( "polynomial{"):
         args = parse_args(name)
@@ -66,7 +73,8 @@ def select(name):
     else:
        choices = \
             ["linear{n,var}", "polynomial{n,var}", \
-             "captions{n}", "poisson-olivier{n}", "scaled_gaussian{n}"]
+             "captions{n}", "poisson-olivier{n}", \
+             "scaled_gaussian{n}", "bernoulli{n}"]
        raise ValueError("Invalid environment \"" + name + "\", " + \
             "choose from " + \
             "[" + ", ".join(choices) + "]") 
