@@ -4,6 +4,7 @@ from algorithms.posteriors.gaussian import Gaussian
 from algorithms.posteriors.truncated_gaussian import TruncatedGaussian 
 from algorithms.posteriors.dirichlet import Dirichlet 
 from algorithms.posteriors.gamma import Gamma 
+from algorithms.posteriors.beta import Beta 
 from algorithms.posteriors.t_distribution import TDistribution 
 from algorithms.posteriors.truncated_t_distribution import TruncatedTDistribution 
 
@@ -45,11 +46,17 @@ def select(posterior_str):
         alpha = args["alpha"]
         beta = args["beta"]
         return Gamma(alpha, beta)
+    elif posterior_str.startswith( "beta{"):
+        args = parse_args(posterior_str)
+        alpha = args["alpha"]
+        beta = args["beta"]
+        return Beta(alpha, beta)
     else:
         choices = \
             ["gaussian{var,var0,mu0}", "truncted_gaussian{var,a,b}", \
              "t_distribution{alpha}", "truncated_t_distribution{alpha,a,b}", \
-             "dirichlet{[cat], [alpha]}", "gamma{alpha, beta}"]
+             "dirichlet{[cat], [alpha]}", "gamma{alpha, beta}", \
+             "beta{alpha, beta}"]
         raise ValueError("Invalid posterior \"" + posterior_str + "\", " + \
                 "choose from " + \
                 "[" + ", ".join(choices) + "]")
