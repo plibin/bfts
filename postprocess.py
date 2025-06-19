@@ -1,10 +1,11 @@
 from argparse import ArgumentParser
+import sys
 import csv
 import numpy as np
 
 import environments
 
-def postprocess(real_means_, m, stat, csv_fn):
+def postprocess(real_means_, m, stat, csv_fn, out):
     real_means = np.array(real_means_)
     real_m_top = np.argsort(-real_means)[:m]
 
@@ -17,21 +18,22 @@ def postprocess(real_means_, m, stat, csv_fn):
         #first column is the time, the rest are the top arms
         for row in read_csv:
             time = int(row[0])
-            m_top = list(map(int, row[1:1+args.m]))
+            m_top = list(map(int, row[1:1+m]))
 
-            if args.stat == "min":
+            if stat == "min":
                 min_ = np.min(real_means[m_top])
-                print(str(time) + "," + str(min_))
-            elif args.stat == "sum":
+                out.write(str(time) + "," + str(min_) + "\n")
+            elif stat == "sum":
                 sum_ = np.sum(real_means[m_top])
-                print(str(time) + "," + str(sum_))
-            elif args.stat == "prop_of_success":
+                out.write(str(time) + "," + str(sum_) + "\n")
+            elif stat == "prop_of_success":
                 i = set(real_m_top).intersection(set(m_top))
-                prop = len(i) / args.m
-                print(str(time) + "," + str(prop))
+                prop = len(i) / m
+                out.write(str(time) + "," + str(prop) + "\n")
             else:
                 raise ValueError("Invalid statistic, choose from:" + \
                         "[min, sum, prop_of_success]")
+            out.flush()
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="postprocess")
@@ -48,4 +50,4 @@ if __name__ == "__main__":
 
     (real_means, bandit) = environments.select(args.env)
 
-    postprocess(real_means, args.m, args.stat, args.csv_fn)
+    postprocess(real_means, args.m, args.stat, args.csv_fn, sys.stdout)

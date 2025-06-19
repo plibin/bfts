@@ -1,16 +1,17 @@
 import numpy as np
 from argparse import ArgumentParser
+import sys
 
 import environments
 from algorithms.uniform import Uniform
 from run_utils import print_header,run
 
-def run_uniform(seed, bandit, m, time):
+def run_uniform(seed, bandit, m, time, out):
     np.random.seed(seed)
 
-    print_header(args.m)
+    print_header(m, out)
     algo = Uniform(bandit, m)
-    run(algo, time)
+    run(algo, time, out)
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="Uniform m-top")
@@ -25,4 +26,4 @@ if __name__ == "__main__":
 
     (real_means, bandit) = environments.select(args.env)
 
-    run_uniform(args.seed, bandit, args.m, args.time)
+    run_uniform(args.seed, bandit, args.m, args.time, sys.stdout)

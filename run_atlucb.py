@@ -1,19 +1,20 @@
 import numpy as np
 from argparse import ArgumentParser
+import sys
 
 import environments
 from algorithms.atlucb import AT_LUCB 
 from run_utils import print_header,run
 
-def run_atlucb(seed, bandit, m, time):
+def run_atlucb(seed, bandit, m, time, out):
     np.random.seed(seed)
 
-    print_header(m)
+    print_header(m, out)
     sigma=0.5
     alpha=0.99
     epsilon=0
     algo = AT_LUCB(bandit, m, sigma, alpha, epsilon)
-    run(algo, time)
+    run(algo, time, out)
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="ATLUCB")
@@ -28,4 +29,4 @@ if __name__ == "__main__":
     
     (real_means, bandit) = environments.select(args.env)
 
-    run_atlucb(args.seed, bandit, args.m, args.time)
+    run_atlucb(args.seed, bandit, args.m, args.time, sys.stdout)

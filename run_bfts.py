@@ -1,12 +1,13 @@
 import numpy as np
 from argparse import ArgumentParser
+import sys
 
 import environments
 
 from algorithms.bfts import BFTS 
 import algorithms.posteriors as p
 
-def run_bfts(seed, create_posterior, bandit, m, time):
+def run_bfts(seed, create_posterior, bandit, m, time, out):
     np.random.seed(seed)
 
     posteriors = [create_posterior() for x in range(len(bandit.arms))]
@@ -15,7 +16,8 @@ def run_bfts(seed, create_posterior, bandit, m, time):
 
     #print header
     header = ['m %i' % i for i in range(1, m + 1)]
-    print("t," + ",".join(header) + ",arm,reward", flush=True)
+    out.write("t," + ",".join(header) + ",arm,reward" + "\n")
+    out.flush()
 
     #init posteriors
     total_inits = 0
@@ -24,14 +26,16 @@ def run_bfts(seed, create_posterior, bandit, m, time):
             reward = bandit.play(i)
             algo.add_reward(i, reward)
             total_inits = total_inits + 1
-            print(str(total_inits) + "," + ",".join(["-1"]*m) + "," \
-                  + str(i) + "," + str(reward), flush=True)
+            out.write(str(total_inits) + "," + ",".join(["-1"]*m) + "," \
+                      + str(i) + "," + str(reward) + "\n")
+            out.flush()
 
     for t in range(1, time + 1 - total_inits):
         (J_t, arm, reward) = algo.step(t)
         J_t = [str(i) for i in J_t]
-        print(str(t + total_inits) + "," + ",".join(J_t) + "," + str(arm) + \
-              "," + str(reward), flush=True)
+        out.write(str(t + total_inits) + "," + ",".join(J_t) + "," + \
+                  str(arm) + "," + str(reward) + "\n")
+        out.flush()
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="BFTS")
@@ -49,4 +53,4 @@ if __name__ == "__main__":
     (real_means, bandit) = environments.select(args.env)
 
     run_bfts(args.seed, lambda: p.select(args.posterior), bandit, \
-             args.m, args.time)
+             args.m, args.time, sys.stdout)
