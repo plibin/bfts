@@ -5,19 +5,24 @@ import environments
 from algorithms.uniform import Uniform
 from run_utils import print_header,run
 
-parser = ArgumentParser(description="Uniform m-top")
+def run_uniform(seed, bandit, m, time):
+    np.random.seed(seed)
 
-parser.add_argument("-s", "--seed", dest="seed", type=int, required=True)
-parser.add_argument("-t", "--time", dest="time", type=int, required=True)
-parser.add_argument("-m", "--m", dest="m",type=int, required=True)
-parser.add_argument("-e", "--environment", dest="env", type=str, required=True)
+    print_header(args.m)
+    algo = Uniform(bandit, m)
+    run(algo, time)
 
-args = parser.parse_args()
+if __name__ == "__main__":
+    parser = ArgumentParser(description="Uniform m-top")
 
-np.random.seed(args.seed)
-(real_means, bandit) = environments.select(args.env)
+    parser.add_argument("-s", "--seed", dest="seed", type=int, required=True)
+    parser.add_argument("-t", "--time", dest="time", type=int, required=True)
+    parser.add_argument("-m", "--m", dest="m",type=int, required=True)
+    parser.add_argument("-e", "--environment", dest="env", type=str, \
+        required=True)
 
-print_header(args.m)
-algo = Uniform(bandit, args.m)
-run(algo, args.time)
+    args = parser.parse_args()
 
+    (real_means, bandit) = environments.select(args.env)
+
+    run_uniform(args.seed, bandit, args.m, args.time)
