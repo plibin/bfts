@@ -18,7 +18,7 @@ def clean_stat_name(stat):
     if stat == "sum":
         return r'$\sum_{i \in \mathcal{J}(t)} \mu_i$'
     elif stat == "prop_of_success":
-        return r'$|\mathcal{J}(t) \cap \mathcal{J}^{*}|/m$'
+        return r'success'
 
 def x_axis_fmt(x, pos): 
     s = '%d' % (x / 10**4)
@@ -28,7 +28,7 @@ def plot(algos, samples, dir_, stat, ymin, ymax, output):
     colors = ['b', 'g', 'r', 'c', 'm', 'y']
    
     #use latex for text rendering
-    pl.rc('text', usetex=True)
+    pl.rc('text', usetex=False)
     pl.rc('font', family='serif')
     
     x = list(range(1, samples + 1))

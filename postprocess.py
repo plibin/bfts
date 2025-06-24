@@ -10,7 +10,7 @@ def postprocess(real_means_, m, stat, csv_fn, out):
     real_m_top = np.argsort(-real_means)[:m]
 
     #print the output header
-    print("t," + stat, flush=True)
+    out.write("t," + stat)
 
     with open(csv_fn) as csv_file:
         read_csv = csv.reader(csv_file, delimiter=',')
